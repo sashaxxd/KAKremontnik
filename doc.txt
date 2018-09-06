@@ -1,0 +1,4 @@
+1. установка RBAC
+добавляем в composer.json расширение - "mdmsoft/yii2-admin": "~2.0"
+делаем по инструкции
+https://github.com/mdmsoft/yii2-admin/blob/master/docs/guide/configuration.md
