@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Signup;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -71,17 +72,31 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) {
+        if (!Yii::$app->getUser()->isGuest) {
             return $this->goHome();
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        if ($model->load(Yii::$app->getRequest()->post()) && $model->login()) {
             return $this->goBack();
+        } else {
+            return $this->render('login', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+
+    public function actionSignup()
+    {
+        $model = new Signup();
+        if ($model->load(Yii::$app->getRequest()->post())) {
+            if ($user = $model->signup()) {
+                return $this->goHome();
+            }
         }
 
-        $model->password = '';
-        return $this->render('login', [
+        return $this->render('signup', [
             'model' => $model,
         ]);
     }

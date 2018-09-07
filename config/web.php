@@ -35,7 +35,9 @@ $config = [
         'allowActions' => [
             'site/*',
             'admin/*',
-            'some-controller/some-action',
+            'gii*',
+            'debug*',
+
 
         ]
     ],
