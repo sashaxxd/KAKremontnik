@@ -1,0 +1,26 @@
+#wb_uid1{
+    text-shadow: 1px 1px 2px rgba(12, 12, 12, 1);
+}
+
+#wb_header{
+    min-width: 100%;
+}
+#header{
+    max-width: 1280px;
+}
+
+#wb_hit{
+    min-width: 100%;
+}
+#hit{
+    max-width: 1280px;
+}
+#navi, #form_reg{
+    max-width: 1280px;
+}
+
+#form_reg .col-1,
+#form_reg .col-2 {
+    font-size: 20px;
+    color: #0000FF;
+}

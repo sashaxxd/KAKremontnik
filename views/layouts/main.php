@@ -25,57 +25,50 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
-
-<div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            ['label' => 'Регистрация', 'url' => ['/site/signup']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Авторизация', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Выход (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
-    ]);
-    NavBar::end();
-    ?>
-
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
+<div id="wb_header">
+    <div id="header">
+        <div class="row">
+            <div class="col-1">
+                <div id="wb_logo">
+                    <img src="/images/brain.png" id="logo" alt="">
+                </div>
+            </div>
+            <div class="col-2">
+                <div id="wb_name">
+                    <span id="wb_uid0">Cпециалист.ру</span>
+                </div>
+            </div>
+            <div class="col-3">
+                <div id="wb_menu">
+                    <label class="toggle" for="menu-submenu" id="menu-title"><span id="menu-icon"><span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span></span></label>
+                    <input type="checkbox" id="menu-submenu">
+                    <ul class="menu" id="menu">
+                        <li><a href="<?= \yii\helpers\Url::home()?>">Главная</a></li>
+                        <li><a href="http://">Войти</a></li>
+                        <li><a href="<?= \yii\helpers\Url::to('signup')?>">Регистрация</a></li>
+                        <li><a href="http://">Заказы</a></li>
+                        <li><a href="http://">О проекте</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <?= $content ?>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+<div id="wb_LayoutGrid5">
+    <div id="LayoutGrid5">
+        <div class="row">
+            <div class="col-1">
+            </div>
+            <div class="col-2">
+            </div>
+            <div class="col-3">
+            </div>
+        </div>
     </div>
-</footer>
-
+</div>
 <?php $this->endBody() ?>
 </body>
 </html>

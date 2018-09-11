@@ -91,6 +91,7 @@ class SiteController extends Controller
     {
         $model = new Signup();
         if ($model->load(Yii::$app->getRequest()->post())) {
+            Debug($model );
             if ($user = $model->signup()) {
                 return $this->goHome();
             }
