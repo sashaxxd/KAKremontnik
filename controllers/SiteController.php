@@ -2,7 +2,9 @@
 
 namespace app\controllers;
 
+use app\models\ChangePassword;
 use app\models\Signup;
+use app\models\User;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -33,7 +35,7 @@ class SiteController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+//                    'logout' => ['post'],
                 ],
             ],
         ];
@@ -78,6 +80,8 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->getRequest()->post()) && $model->login()) {
+
+
             return $this->goBack();
         } else {
             return $this->render('login', [
@@ -91,15 +95,90 @@ class SiteController extends Controller
     {
         $model = new Signup();
         if ($model->load(Yii::$app->getRequest()->post())) {
-            Debug($model );
+//            Debug(Yii::$app->getRequest()->post());
+            $random  = Yii::$app->getRequest()->post('Signup')['email'];
+            $model->email_confirm_token = md5(uniqid($random , true));
             if ($user = $model->signup()) {
-                return $this->goHome();
+//                return $this->goHome();
+                /**
+                 * Отправляем на почту ссылку для подтверждения регистрации используем метод - sentEmailConfirm($user)
+                 */
+                 $this->sentEmailConfirm($user);
+
+                return $this->redirect(['signup-step2']);
             }
         }
 
         return $this->render('signup', [
             'model' => $model,
         ]);
+    }
+
+    /**
+     * Отправляем сообщение
+     */
+    private function sentEmailConfirm($user)
+    {
+        $email = $user->email;
+
+        $sent = Yii::$app->mailer
+            ->compose(
+                ['html' => 'user-signup-comfirm-html', 'text' => 'user-signup-comfirm-text'],
+                ['user' => $user])
+            ->setTo($email)
+            ->setFrom(Yii::$app->params['adminEmail'])
+            ->setSubject('Подтверждение регистрации на сайте - Cпециалист.ру')
+            ->send();
+
+        if (!$sent) {
+            throw new \RuntimeException('Sending error.');
+        }
+    }
+
+    /**
+     * Второй шаг регистрации - окно с уведомлением что письмецо отпавленно для подтверждения
+     */
+    public function actionSignupStep2()
+    {
+
+
+        return $this->render('signup-step2', [
+
+        ]);
+    }
+
+    public function  actionSignupConfirm(){
+
+           $token = Yii::$app->request->get()['token'];
+
+           $this->confirmation($token);
+
+           return $this->render('signup-confirm', [
+
+           ]);
+       }
+
+
+    public function confirmation($token)
+    {
+        if (empty($token)) {
+            throw new \DomainException('Empty confirm token.');
+        }
+
+        $user = User::findOne(['email_confirm_token' => $token]);
+        if (!$user) {
+            throw new \DomainException('User is not found.');
+        }
+
+        $user->email_confirm_token = null;
+        $user->status = User::STATUS_ACTIVE;
+        if (!$user->save()) {
+            throw new \RuntimeException('Saving error.');
+        }
+
+        if (!Yii::$app->getUser()->login($user)){
+            throw new \RuntimeException('Error authentication.');
+        }
     }
 
     /**
@@ -115,30 +194,18 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays contact page.
-     *
-     * @return Response|string
+     * Изменить пароль
      */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
 
-            return $this->refresh();
+    public function actionChangePassword()
+    {
+        $model = new ChangePassword();
+        if ($model->load(Yii::$app->getRequest()->post()) && $model->change()) {
+            return $this->goHome();
         }
-        return $this->render('contact', [
+
+        return $this->render('change-password', [
             'model' => $model,
         ]);
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
     }
 }

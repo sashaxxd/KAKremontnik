@@ -14,6 +14,7 @@ use yii\helpers\ArrayHelper;
 class Signup extends MainSignup
 {
     public $regulations;
+    public $email_confirm_token;
 
 
     public function rules()
@@ -29,6 +30,24 @@ class Signup extends MainSignup
 //                [['regulations'], 'default', 'value' => '0'],
             ]
         );
+    }
+
+
+    public function signup()
+    {
+        if ($this->validate()) {
+            $user = new User();
+            $user->username = $this->username;
+            $user->email = $this->email;
+            $user->email_confirm_token = $this->email_confirm_token;
+            $user->setPassword($this->password);
+            $user->generateAuthKey();
+            if ($user->save()) {
+                return $user;
+            }
+        }
+
+        return null;
     }
 
     public function attributeLabels()

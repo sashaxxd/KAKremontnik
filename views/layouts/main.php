@@ -44,7 +44,11 @@ AppAsset::register($this);
                     <input type="checkbox" id="menu-submenu">
                     <ul class="menu" id="menu">
                         <li><a href="<?= \yii\helpers\Url::home()?>">Главная</a></li>
-                        <li><a href="http://">Войти</a></li>
+                        <?php  if(Yii::$app->user->isGuest): ?>
+                        <li><a href="<?= \yii\helpers\Url::to('login')?>">Войти</a></li>
+                        <?php else: ?>
+                        <li><a href="<?= \yii\helpers\Url::to(['/site/logout'])?>">Выйти</a></li>
+                        <?php endif; ?>
                         <li><a href="<?= \yii\helpers\Url::to('signup')?>">Регистрация</a></li>
                         <li><a href="http://">Заказы</a></li>
                         <li><a href="http://">О проекте</a></li>
