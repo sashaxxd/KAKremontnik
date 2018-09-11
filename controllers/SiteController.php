@@ -146,7 +146,9 @@ class SiteController extends Controller
 
         ]);
     }
-
+    /**
+     * На этот экшен кидает с почты
+     */
     public function  actionSignupConfirm(){
 
            $token = Yii::$app->request->get()['token'];
@@ -158,7 +160,9 @@ class SiteController extends Controller
            ]);
        }
 
-
+    /**
+     * Проверяем токен и авторизируем пользователя
+     */
     public function confirmation($token)
     {
         if (empty($token)) {
