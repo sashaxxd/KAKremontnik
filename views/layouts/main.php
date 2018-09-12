@@ -25,21 +25,23 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
-<div id="wb_header">
+<div class="wrapper">
+<div class="content">
+<div id="site_header">
     <div id="header">
         <div class="row">
             <div class="col-1">
-                <div id="wb_logo">
+                <div id="site_logo">
                     <img src="/images/brain.png" id="logo" alt="">
                 </div>
             </div>
             <div class="col-2">
-                <div id="wb_name">
-                    <span id="wb_uid0">Cпециалист.ру</span>
+                <div id="site_name">
+                    <span id="site_uid0">Cпециалист.ру</span>
                 </div>
             </div>
             <div class="col-3">
-                <div id="wb_menu">
+                <div id="site_menu">
                     <label class="toggle" for="menu-submenu" id="menu-title"><span id="menu-icon"><span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span></span></label>
                     <input type="checkbox" id="menu-submenu">
                     <ul class="menu" id="menu">
@@ -48,10 +50,19 @@ AppAsset::register($this);
                         <li><a href="<?= \yii\helpers\Url::to('login')?>">Войти</a></li>
                         <?php else: ?>
                         <li><a href="<?= \yii\helpers\Url::to(['/site/logout'])?>">Выйти</a></li>
+                            <li><a href="<?= \yii\helpers\Url::to(['/site/logout'])?>">
+
+                                    Ваш кабинет </a></li>
                         <?php endif; ?>
+                        <?php  if(Yii::$app->user->isGuest): ?>
                         <li><a href="<?= \yii\helpers\Url::to('signup')?>">Регистрация</a></li>
+                        <?php else: ?>
+                        <?php endif; ?>
+
                         <li><a href="http://">Заказы</a></li>
+
                         <li><a href="http://">О проекте</a></li>
+
                     </ul>
                 </div>
             </div>
@@ -119,8 +130,9 @@ AppAsset::register($this);
 
 
         <?= $content ?>
-
-<div id="wb_LayoutGrid5">
+</div>
+    <div class="footer">
+<div id="site_LayoutGrid5">
     <div id="LayoutGrid5">
         <div class="row">
             <div class="col-1">
@@ -130,6 +142,8 @@ AppAsset::register($this);
             <div class="col-3">
             </div>
         </div>
+    </div>
+</div>
     </div>
 </div>
 <?php $this->endBody() ?>

@@ -3,6 +3,8 @@
 namespace app\controllers;
 
 use app\models\ChangePassword;
+use app\models\PasswordResetRequest;
+use app\models\ResetPassword;
 use app\models\Signup;
 use app\models\User;
 use Yii;
@@ -12,6 +14,8 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use yii\base\InvalidParamException;
+use yii\web\BadRequestHttpException;
 
 class SiteController extends Controller
 {
@@ -227,4 +231,46 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+
+
+
+    public function actionResetPassword($token)
+    {
+        try {
+            $model = new ResetPassword($token);
+        } catch (InvalidParamException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+
+        if ($model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->resetPassword()) {
+            Yii::$app->getSession()->setFlash('success', 'Новый пароль сохранен вы можете войти.');
+
+            return $this->redirect(['login']);
+        }
+
+        return $this->render('reset-password', [
+            'model' => $model,
+        ]);
+    }
+
+
+    public function actionRequestPasswordReset()
+    {
+        $model = new PasswordResetRequest();
+        if ($model->load(Yii::$app->getRequest()->post()) && $model->validate()) {
+            if ($model->sendEmail()) {
+                Yii::$app->getSession()->setFlash('success', 'На вашу почту отправленна инструкция по смене пароля');
+
+                return $this->goHome();
+            } else {
+                Yii::$app->getSession()->setFlash('error', 'Такого емейла нет в базе.');
+            }
+        }
+
+        return $this->render('request-password-reset', [
+            'model' => $model,
+        ]);
+    }
 }
+
+

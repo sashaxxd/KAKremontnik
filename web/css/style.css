@@ -1,15 +1,37 @@
-#wb_uid1{
+a {
+    color: #FF4500;
+    text-decoration: underline;
+}
+a:visited {
+    color: #FF4500;
+}
+a:active {
+    color: #FF4500;
+}
+a:hover {
+    color: #FF4500;
+    text-decoration: underline;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+.content {
+    min-height: calc(100vh - 80px);
+}
+#site_uid1{
     text-shadow: 1px 1px 2px rgba(12, 12, 12, 1);
 }
 
-#wb_header{
+#site_header{
     min-width: 100%;
 }
 #header{
     max-width: 1280px;
 }
 
-#wb_hit{
+#site_hit{
     min-width: 100%;
 }
 #hit{

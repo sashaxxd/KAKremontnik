@@ -79,10 +79,28 @@ $this->registerCssFile('/css/registration.css', ['depends' => ['app\assets\AppAs
                         </div>
                     </div>
                 </div>
+
                 <input type="submit" id="Button1" name="" value="Авторизироваться">
                 <?php ActiveForm::end(); ?>
+                <div id="reg_Text5">
+                    <div id="reg_LayoutGrid4">
+                        <div id="LayoutGrid4">
+                            <div class="row">
+                                <div class="col-1">
+                                </div>
+                                <div class="col-2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <span id="reg_uid3">Забыли пароль?</span><br>
+                    <a href="<?= \yii\helpers\Url::to(['request-password-reset']) ?>">
+                        <span id="reg_uid3">востановить</span>
+                    </a>
+                </div>
             </div>
             <div class="col-2">
+
             </div>
         </div>
     </div>

@@ -5,6 +5,7 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
+    'name'=>'Специалист.ру',
     'language' => 'ru',
     'defaultRoute' => 'site/index',
     'basePath' => dirname(__DIR__),
@@ -98,6 +99,8 @@ $config = [
                 'change-password' => 'site/change-password',
                 'login' => 'site/login',
                 'logout' => 'site/logout',
+                'reset-password' => 'site/reset-password',
+                'request-password-reset' => 'site/request-password-reset',
 
             ],
         ],

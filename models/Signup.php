@@ -24,8 +24,8 @@ class Signup extends MainSignup
             [
 
                 ['regulations', 'compare', 'compareValue' => 1, 'message' => 'Необходимо согласиться с правилами сервиса!'],
-
-
+                ['username', 'unique', 'targetClass' => 'mdm\admin\models\User', 'message' => 'Этот логин уже занят.'],
+                ['email', 'unique', 'targetClass' => 'mdm\admin\models\User', 'message' => 'Этот почтовый ящик уже зарегистрирован на сервисе.'],
 //                [['regulations'], 'safe'],
 //                [['regulations'], 'default', 'value' => '0'],
             ]

@@ -32,7 +32,7 @@ $this->registerCssFile('/css/registration.css', ['depends' => ['app\assets\AppAs
                     <span id="reg_uid1">Контактное лицо</span>
                 </div>
 
-                <?= $form->field($model, 'username')->textInput(['id' => 'Editbox1', 'placeholder' => 'Ваше имя'])->label(false) ?>
+                <?= $form->field($model, 'username')->textInput(['id' => 'Editbox1', 'placeholder' => 'Ваше логин'])->label(false) ?>
                 <div id="reg_Text4">
                     <span id="reg_uid2">Электронная почта</span>
                 </div>
