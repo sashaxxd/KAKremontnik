@@ -2,7 +2,7 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+$this->title = 'Cпециалист.ру | Здесь вы можете найти специалиста в любой сфере деятельности';
 ?>
 <div id="wb_hit">
     <div id="hit">

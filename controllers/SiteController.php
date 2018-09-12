@@ -81,7 +81,8 @@ class SiteController extends Controller
         $model = new LoginForm();
         if ($model->load(Yii::$app->getRequest()->post()) && $model->login()) {
 
-
+            $message = Yii::$app->user->identity->username . " здравствуйте, вы успешно авторизировались на сайте";
+            Yii::$app->session->setFlash('success', "$message");
             return $this->goBack();
         } else {
             return $this->render('login', [
@@ -103,9 +104,11 @@ class SiteController extends Controller
                 /**
                  * Отправляем на почту ссылку для подтверждения регистрации используем метод - sentEmailConfirm($user)
                  */
-                 $this->sentEmailConfirm($user);
+              $this->sentEmailConfirm($user);
 
-                return $this->redirect(['signup-step2']);
+
+
+                return $this->goHome();
             }
         }
 
@@ -131,7 +134,10 @@ class SiteController extends Controller
             ->send();
 
         if (!$sent) {
-            throw new \RuntimeException('Sending error.');
+            Yii::$app->session->setFlash('error', "Проверьте адрес электронной почты и повторите регистрацию");
+        }
+        else{
+            Yii::$app->session->setFlash('success', "На ваш Email отправленно письмо для подтврждения регистации");
         }
     }
 
@@ -152,30 +158,32 @@ class SiteController extends Controller
     public function  actionSignupConfirm(){
 
            $token = Yii::$app->request->get()['token'];
-
            $this->confirmation($token);
 
-           return $this->render('signup-confirm', [
-
-           ]);
+            return $this->goHome();
        }
 
     /**
      * Проверяем токен и авторизируем пользователя
      */
-    public function confirmation($token)
+    private function confirmation($token)
     {
         if (empty($token)) {
             throw new \DomainException('Empty confirm token.');
         }
 
         $user = User::findOne(['email_confirm_token' => $token]);
+
         if (!$user) {
             throw new \DomainException('User is not found.');
         }
 
+
         $user->email_confirm_token = null;
         $user->status = User::STATUS_ACTIVE;
+
+
+
         if (!$user->save()) {
             throw new \RuntimeException('Saving error.');
         }
@@ -183,6 +191,13 @@ class SiteController extends Controller
         if (!Yii::$app->getUser()->login($user)){
             throw new \RuntimeException('Error authentication.');
         }
+        else{
+            $message = Yii::$app->user->identity->username . " здравствуйте ваш Email подтвержден, вы успешно авторизировались на сайте";
+            Yii::$app->session->setFlash('success', "$message");
+            return $this->redirect(['index']);
+        }
+
+
     }
 
     /**

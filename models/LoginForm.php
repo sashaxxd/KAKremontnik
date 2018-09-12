@@ -14,6 +14,14 @@ use mdm\admin\models\form\Login as Login;
  */
 class LoginForm extends Login{
 
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'Контактное лицо',
+            'password' => 'Пароль',
+//            'regulations' => 'Выствите чебокс, иначе форма не отправится!',
 
+        ];
+    }
 
 }

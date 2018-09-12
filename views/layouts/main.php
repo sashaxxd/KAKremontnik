@@ -59,6 +59,65 @@ AppAsset::register($this);
     </div>
 </div>
 
+
+<!-- Флеш сообщения -->
+
+<?php if (Yii::$app->session->hasFlash('success')): ?>
+    <div id="mess_msg-cntain">
+        <div id="msg-cntain">
+            <div class="row">
+                <div class="col-1">
+                    <div id="mess_message_ok">
+                        <div id="message_ok">
+                            <div class="row">
+                                <div class="col-1">
+                                    <div id="mess_message_text">
+                                        <span id="mess_uid0"><?php echo Yii::$app->session->getFlash('success'); ?></span>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div id="mess_message_close">
+                                        <div id="message_close"><i class="fa fa-window-close">&nbsp;</i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+<?php if (Yii::$app->session->hasFlash('error')): ?>
+    <div id="message_msg-cntain-error">
+        <div id="msg-cntain-error">
+            <div class="row">
+                <div class="col-1">
+                    <div id="message_message_error">
+                        <div id="message_error">
+                            <div class="row">
+                                <div class="col-1">
+                                    <div id="message_message_error_text">
+                                        <span id="message_uid0"><?php echo Yii::$app->session->getFlash('error'); ?></span>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div id="message_message_close_error">
+                                        <div id="message_close_error"><i class="fa fa-window-close">&nbsp;</i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+
+
         <?= $content ?>
 
 <div id="wb_LayoutGrid5">

@@ -22,11 +22,18 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/index.css',
         'css/style.css',
+        'css/flash_message.css',
+        'css/font-awesome.min.css'
     ];
     public $js = [
+        'js/jquery-1.12.4.min.js',
+        'js/flash_message.js',
     ];
     public $depends = [
-        'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
+//        'yii\web\YiiAsset',
+//        'yii\bootstrap\BootstrapAsset',
+//        'yii\web\JqueryAsset',//Cтавим зависимость от jquery - отключит встроенный Jquery
     ];
+
+    public $jsOptions = [ 'position' => \yii\web\View::POS_END ];
 }
